@@ -27,7 +27,7 @@ class Packet {
             if (this.message != null)
                 System.out.println("Receive packet received, message = " + this.message);
         } catch (IOException e) {
-            System.out.println("IOException (receive): " + e);
+            System.out.println("IOException (receive): " + e.getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ class Packet {
             this.socket.send(this.packet);
             System.out.println("Send packet sent, message = " + this.message);
         } catch (IOException e) {
-            System.out.println("IOException (send): " + e);
+            System.out.println("IOException (send): " + e.getMessage());
         }
     }
 }

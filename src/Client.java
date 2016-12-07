@@ -4,7 +4,6 @@ import java.net.DatagramSocket;
 class Client {
     public static void main(String[] args){
         try {
-            int MAX_USER_LEN = 20;
             int MAX_LEN = 200;
 
             String from_user = args[0];
