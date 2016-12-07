@@ -17,33 +17,39 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
 public class GUI extends JPanel implements Runnable {
-    String input_message;
-    JTextArea messages_field;
+    volatile String input_message;
+    volatile JTextArea messages_field;
     JTextField input_field;
-    boolean send_message = false;
+    String user;
 
-    GUI() {
+    GUI(String user) {
+        this.user = user;
+
         this.setLayout(new GridBagLayout());
+        this.input_message = null;
     }
 
-    public void add_message(String message) {
-        this.messages_field.append(message + "\n");
+    public void add_message(String msg, String user) {
+        if (message == null) return;
+        System.out.println("Message added to messages_field, message = " + msg);
+        this.messages_field.append(user + ": " + msg + "\n");
     }
 
-    public String get_input() {
-        if (this.input_message != null) {
-            String message = this.input_message;
-            this.input_message = null;
-            return message;
-        }
-        return null;
+    public String get_message() {
+        String message = this.input_message;
+        this.input_message = null;
+        return message;
     }
 
     public void run() {
         Font font = new Font("Serif", Font.PLAIN, 18);
 
-        this.messages_field = new JTextArea(25, 55);
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridwidth = 2;
+        c.gridx = 0;
+        c.gridy = 0;
 
+        this.messages_field = new JTextArea(25, 55);
         this.messages_field.setWrapStyleWord(true);
         this.messages_field.setEditable(false);
         this.messages_field.setFont(font);
@@ -51,13 +57,11 @@ public class GUI extends JPanel implements Runnable {
         JScrollPane scroll = new JScrollPane(this.messages_field);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridwidth = 2;
-        c.gridx = 0;
-        c.gridy = 0;
         this.add(scroll, c);
         
+        c.gridwidth = 1;
+        c.gridy = 1;
+
         this.input_field = new JTextField(50);
         this.input_field.setFont(font);
         this.input_field.setMargin(new Insets(0, 20, 0, 0));
@@ -67,10 +71,9 @@ public class GUI extends JPanel implements Runnable {
                     send_message();
             }
         });
-
-        c.gridwidth = 1;
-        c.gridy = 1;
         this.add(this.input_field, c);
+
+        c.gridx = 1;
 
         JButton submit_button = new JButton("Enviar");
         submit_button.addActionListener(new ActionListener() {
@@ -78,8 +81,6 @@ public class GUI extends JPanel implements Runnable {
                 send_message();
             }
         });
-
-        c.gridx = 1;
         this.add(submit_button, c);
 
         JFrame f = new JFrame("Chat");
@@ -93,7 +94,12 @@ public class GUI extends JPanel implements Runnable {
     }
 
     private void send_message() {
-        this.input_message = this.input_field.getText();
-        this.input_field.setText("");
+        String message = this.input_field.getText();
+        if (message.length() > 0) {
+            this.input_message = message;
+            this.add_message(message, this.user);
+            System.out.println("Message ready to be sent, message = " + message);
+            this.input_field.setText("");
+        }
     }
 }
