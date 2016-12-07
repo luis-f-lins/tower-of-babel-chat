@@ -12,9 +12,9 @@ class Sender extends Packet {
         if (message == null) return;
         this.message = message;
         this.buffer = this.message.getBytes();
-        this.packet = new DatagramPacket(this.buffer, this.buffer.length, this.host ,this.port);
+        this.packet = new DatagramPacket(this.buffer, this.buffer.length, this.host, this.port);
         send();
-        Arrays.fill(this.buffer, (byte) 0);
         this.message = null;
+        Arrays.fill(this.buffer, (byte) 0);
     }
 }
