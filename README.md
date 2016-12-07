@@ -6,7 +6,7 @@
 
 ## Run
 
-Inside folder bin run Client with java, args are <from_username> <to_username> <to_ip> <send_port> <receive_port>
+Inside folder bin run Client with java, args are: **from_username**, **to_username**, **to_ip**, **send_port**, **receive_port**
 
 -from means you
 
@@ -14,11 +14,13 @@ Inside folder bin run Client with java, args are <from_username> <to_username> <
 
 -to_host can be a local ip address if in LAN
 
--just exchange orders of send_port and receive_port to talk with someone
+-for local chats exchange orders of send_port and receive_port
 
-*Example:*
+**Example:**
 
 `java Client me you localhost 3000 3001`
+
+
 `java Client you me localhost 3001 3000`
 
 ## License
