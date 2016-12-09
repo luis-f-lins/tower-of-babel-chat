@@ -2,41 +2,46 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
-import java.util.Arrays;
 
 class Packet {
     DatagramSocket socket;
-    DatagramPacket packet;
     InetAddress host;
     int port;
-    byte[] buffer;
-    volatile String message;
+    int MAX_LEN;
 
     Packet(DatagramSocket socket, int MAX_LEN, InetAddress host, int port) {
         this.socket = socket;
-        this.buffer = new byte[MAX_LEN];
-        this.message = null;
-        Arrays.fill(this.buffer, (byte) 0);
         this.host = host;
         this.port = port;
+
+        this.MAX_LEN = MAX_LEN;
     }
 
-    public void receive() {
+    public String receive() {
+        String message = null;
+
         try {
-            this.socket.receive(this.packet);
-            if (this.message != null)
-                System.out.println("Receive packet received, message = " + this.message);
+            byte[] buffer = new byte[this.MAX_LEN];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, this.host, this.port);
+
+            this.socket.receive(packet);
+            message = new String(buffer);
+            if (message != null)
+                LOG.debug("Receive packet received, message = " + message);
         } catch (IOException e) {
-            System.out.println("IOException (receive): " + e.getMessage());
+            LOG.debug("IOException (receive): " + e.getMessage());
         }
+        return message;
     }
 
-    public void send() {
+    public void send(byte[] buffer) {
         try {
-            this.socket.send(this.packet);
-            System.out.println("Send packet sent, message = " + this.message);
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, host, port);
+            this.socket.send(packet);
+
+            LOG.debug("Send packet sent, message = " + new String(buffer));
         } catch (IOException e) {
-            System.out.println("IOException (send): " + e.getMessage());
+            LOG.debug("IOException (send): " + e.getMessage());
         }
     }
 }

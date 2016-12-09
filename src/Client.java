@@ -4,8 +4,6 @@ import java.net.DatagramSocket;
 class Client {
     public static void main(String[] args){
         try {
-            int MAX_LEN = 200;
-
             String from_user = args[0];
             String to_user = args[1];
 
@@ -18,16 +16,21 @@ class Client {
 
             DatagramSocket socket = new DatagramSocket(receive_port);
 
-            Sender sender = new Sender(socket, MAX_LEN, to_host, send_port);
-            Receiver receiver = new Receiver(socket, MAX_LEN, to_host, receive_port);
+            Packet sender = new Packet(socket, Config.MESSAGE_MAX_LEN, to_host, send_port);
+            Receiver receiver = new Receiver(socket, Config.MESSAGE_MAX_LEN, to_host, receive_port);
             Thread receiver_thread = new Thread(receiver);
 
             receiver_thread.start();
             gui_thread.start();
 
             while(true){
-                gui.add_message(receiver.get_message(), to_user);
-                sender.send_message(gui.get_message());
+                String message = receiver.get_message();
+                if (message != null)
+                    gui.add_message(message, to_user);
+
+                message = gui.get_message();
+                if (message != null)
+                    sender.send(message.getBytes());
             }
         } catch(Exception e){e.printStackTrace( );}
     }

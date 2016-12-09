@@ -30,19 +30,21 @@ public class GUI extends JPanel implements Runnable {
     }
 
     public void add_message(String msg, String user) {
-        if (message == null) return;
-        System.out.println("Message added to messages_field, message = " + msg);
+        LOG.debug("Message added to messages_field, message = " + msg);
         this.messages_field.append(user + ": " + msg + "\n");
     }
 
     public String get_message() {
+        if (this.input_message == null) return null; // prevents race condition
+
         String message = this.input_message;
         this.input_message = null;
+
         return message;
     }
 
     public void run() {
-        Font font = new Font("Serif", Font.PLAIN, 18);
+        Font font = new Font(Config.FONT_NAME, Font.PLAIN, Config.FONT_SIZE);
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridwidth = 2;
@@ -94,11 +96,12 @@ public class GUI extends JPanel implements Runnable {
     }
 
     private void send_message() {
-        String message = this.input_field.getText();
+        String message = Translator.go(this.input_field.getText());
         if (message.length() > 0) {
             this.input_message = message;
             this.add_message(message, this.user);
-            System.out.println("Message ready to be sent, message = " + message);
+            
+            LOG.debug("Message ready to be sent, message = " + message);
             this.input_field.setText("");
         }
     }
