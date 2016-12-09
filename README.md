@@ -2,7 +2,7 @@
 
 ## Install
 
-`javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Sender.java src/Translate.java src/Log.java src/Config.java -d bin`
+`mkdir -p bin && javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Translate.java src/Log.java src/Config.java -d bin`
 
 ## Run
 

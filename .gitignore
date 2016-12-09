@@ -2,4 +2,4 @@
 *.class
 .*.swo
 .*.swp
-bin
+bin/*
