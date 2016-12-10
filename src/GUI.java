@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import javax.swing.text.DefaultCaret;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -58,6 +60,10 @@ public class GUI extends JPanel implements Runnable {
         JScrollPane scroll = new JScrollPane(this.messages_field);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        DefaultCaret caret = (DefaultCaret) this.messages_field.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
         this.add(scroll, c);
         
         c.gridwidth = 1;
@@ -103,6 +109,7 @@ public class GUI extends JPanel implements Runnable {
             LOG.debug("Message ready to be sent, message = " + message);
 
             this.input_field.setText("");
+            this.input_field.requestFocus();
         }
     }
 }
