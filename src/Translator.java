@@ -53,18 +53,16 @@ class Translator implements Runnable {
             Process process = Runtime.getRuntime().exec(command); 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));                                          
 
-            boolean exit_loop = false;
-            while(!exit_loop) {
-                trans_msg += reader.readLine() + " ";
-
-                exit_loop = trans_msg.endsWith(" null ");
-                trans_msg = trans_msg.replaceFirst(" ?null $", "");
+            String line;
+            while((line = reader.readLine()) != null) {
+                trans_msg += line + " ";
             }
-            trans_msg = trans_msg.replaceFirst("^\"","").replaceFirst("\"$","");
+            reader.close();
+            trans_msg = trans_msg.replaceFirst("^\"","").replaceFirst("\" $","");
         }
         catch(IOException ioe)
         {
-            ioe.printStackTrace();
+            LOG.debug("IOException (translate): " + ioe.getMessage());
         } 
 
         this.translated.add(trans_msg);

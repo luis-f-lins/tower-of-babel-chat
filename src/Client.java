@@ -17,6 +17,7 @@ class Client {
             DatagramSocket socket = new DatagramSocket(receive_port);
 
             Packet sender = new Packet(socket, Config.MESSAGE_MAX_LEN, to_host, send_port);
+
             Receiver receiver = new Receiver(socket, Config.MESSAGE_MAX_LEN, to_host, receive_port);
             Thread receiver_thread = new Thread(receiver);
 
