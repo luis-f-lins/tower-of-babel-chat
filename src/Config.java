@@ -1,5 +1,5 @@
 public class Config {
-    public static boolean DEBUG = true;
+    public static boolean DEBUG = false;
 
     public static int MESSAGE_MAX_LEN = 200;
 
