@@ -16,8 +16,11 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class GUI extends JPanel implements Runnable {
-    volatile String input_message;
+    volatile Queue<String> input_messages;
     volatile JTextArea messages_field;
     JTextField input_field;
     String user;
@@ -26,21 +29,17 @@ public class GUI extends JPanel implements Runnable {
         this.user = user;
 
         this.setLayout(new GridBagLayout());
-        this.input_message = null;
+        this.input_messages = new LinkedList<String>();
     }
 
-    public void add_message(String msg, String user) {
+    public void display_message(String msg, String user) {
         LOG.debug("Message added to messages_field, message = " + msg);
         this.messages_field.append(user + ": " + msg + "\n");
     }
 
     public String get_message() {
-        if (this.input_message == null) return null; // prevents race condition
-
-        String message = this.input_message;
-        this.input_message = null;
-
-        return message;
+        if (this.input_messages.isEmpty()) return null;
+        return this.input_messages.remove();
     }
 
     public void run() {
@@ -98,10 +97,9 @@ public class GUI extends JPanel implements Runnable {
     private void send_message() {
         String message = this.input_field.getText();
         if (message.length() > 0) {
-            String clean_message = Translator.clean(message);
+            this.display_message(Translator.clean(message), this.user);
 
-            this.add_message(clean_message, this.user);
-            this.input_message = message;
+            this.input_messages.add(message);
             LOG.debug("Message ready to be sent, message = " + message);
 
             this.input_field.setText("");

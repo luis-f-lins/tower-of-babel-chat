@@ -1,28 +1,28 @@
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.util.Arrays;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Receiver extends Packet implements Runnable {
-    String message;
+    volatile Queue<String> messages;
 
     Receiver(DatagramSocket socket, int MAX_LEN, InetAddress host, int port) {
         super(socket, MAX_LEN, host, port);
-        this.message = null;
+        this.messages = new LinkedList<String>();
     }
 
     public void run() {
         while (true) {
-            this.message = receive();
+            String message = receive();
+            if (message != null)
+                this.messages.add(message);
         }
     }
 
     public String get_message() {
-        if (this.message == null) return null; // prevents race condition
-
-        String msg = this.message;
-        this.message = null;
-
-        return msg;
+        if (this.messages.isEmpty()) return null;
+        return this.messages.remove();
     }
 }

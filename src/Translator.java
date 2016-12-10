@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,7 +43,7 @@ class Translator implements Runnable {
     void translate(String message) {
         String lang = String.valueOf(message.charAt(1)) + String.valueOf(message.charAt(2));
 
-        message = message.substring(4);
+        message = Translator.clean(message);
         String command = "../trans" + " :" + lang + " -brief " + "\"" + message + "\"";
         LOG.debug(command);
 

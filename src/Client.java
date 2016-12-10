@@ -31,7 +31,7 @@ class Client {
             while(true){
                 String message = receiver.get_message();
                 if (message != null)
-                    gui.add_message(message, to_user);
+                    gui.display_message(message, to_user);
 
                 message = gui.get_message();
                 if (message != null)
