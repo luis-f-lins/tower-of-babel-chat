@@ -1,10 +1,11 @@
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.*;
 
 class Translator {
-    public static String go(String message) {
+    public static String go(String message) throws Exception {
         message = Translator.clean_message(message);
         return Translator.message_to(message);
     }
@@ -14,34 +15,45 @@ class Translator {
         return message;
     }
 
-    static String message_to(String message) {
+    static String message_to(String message) throws Exception {
         char node1 = message.charAt(1);
         char node2 = message.charAt(2);
-        String command = "trans" + " :" + node1 + node2 + " -brief " + "'" + message.substring(4) + "'";  
+        String command = "trans" + " :" + node1 + node2 + " -brief " + message.substring(4);  
         Process process = null;
-        String trans_msg = null;
                
-    	    try
-    {
+//     	    try
+//     {
 		process = Runtime.getRuntime().exec(command); 
+//     }
+//     catch(IOException ioe)
+//     {
+//         ioe.printStackTrace();
+//     }                   
+//                                             
+//     	    
+//     	    try
+//     {
+    String line;
+    String output = "";
+    try {
+        Process p = Runtime.getRuntime().exec(command);
+        BufferedReader input = new BufferedReader
+            (new InputStreamReader(p.getInputStream()));
+        while ((line = input.readLine()) != null) {
+            output += (line + " ");
+        }
+        input.close();
+        }
+    catch (Exception ex) {
+        ex.printStackTrace();
     }
-    catch(IOException ioe)
-    {
-        ioe.printStackTrace();
-    }                   
-    
-    	BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));                                          
-    	    
-    	    try
-    {
-    	trans_msg = reader.readLine(); 
-    }
-    catch(IOException ioe)
-    {
-        ioe.printStackTrace();
-    }     
-    
-        return command;
+    return output;
+//     }
+//     catch(IOException ioe)
+//     {
+//         ioe.printStackTrace();
+//     }     
+//     
     }
                                                            
 
