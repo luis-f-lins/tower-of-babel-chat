@@ -1,8 +1,11 @@
 # Chat and send translated messages
 
-## Install
+## Install (needs [translate-shell](https://github.com/soimort/translate-shell) and [GNU/awk](https://www.gnu.org/software/gawk/) to work)
 
-`mkdir -p bin && javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Translator.java src/Log.java src/Config.java -d bin`
+`bash download_translator.sh`
+`mkdir -p bin`
+`javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Translator.java src/Log.java src/Config.java -d bin`
+`cd bin`
 
 ## Run
 
