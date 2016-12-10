@@ -5,50 +5,53 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 class Translator implements Runnable {
-    volatile Queue<String> messages;
+    volatile Queue<String> to_translate;
+    volatile Queue<String> translated;
 
     Translator() {
-        this.messages = new LinkedList<String>();
+        this.to_translate = new LinkedList<String>();
+        this.translated = new LinkedList<String>();
     }
 
-    public String get_message() {
-        if (this.messages.isEmpty()) return null;
-        return this.messages.remove();
+    public String get_translated() {
+        if (this.translated.isEmpty()) return null;
+        return this.translated.remove();
     }
 
     public void run() {
-    }
-
-    public static String clean(String message) {
-        if (message.length() < 5 || message.length() == 0 || message.charAt(0) != ':') // ":xx x"
-            return message;
-        else
-            return message.substring(4);
-    }
-
-    public String go(String message) {
-        if (message.length() < 5 || message.length() == 0 || message.charAt(0) != ':') { // ":xx x"
-            return message;
-        } else {
-            this.messages.add(Translator.message(message));
-            return null;
+        while(true) {
+            if (!this.to_translate.isEmpty()) {
+                String message = this.to_translate.remove();
+                this.translate(message);
+            }
         }
     }
 
-    static String message(String message) {
+    public static String clean(String message) {
+        return message.replaceFirst("^:[a-z]{2} ","");
+    }
+
+    public String go(String message) {
+        if (!message.matches("^:[a-z]{2} .*"))
+            return message;
+
+        this.to_translate.add(message);
+        return null;
+    }
+
+    void translate(String message) {
         String lang = String.valueOf(message.charAt(1)) + String.valueOf(message.charAt(2));
 
         message = message.substring(4);
         String command = "../trans" + " :" + lang + " -brief " + "\"" + message + "\"";
         LOG.debug(command);
 
-        String trans_msg = message;
+        String trans_msg = "";
 
         try
         {
             Process process = Runtime.getRuntime().exec(command); 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));                                          
-            trans_msg = "";
 
             boolean exit_loop = false;
             while(!exit_loop) {
@@ -62,7 +65,8 @@ class Translator implements Runnable {
         catch(IOException ioe)
         {
             ioe.printStackTrace();
-        }                   
-        return trans_msg;
+        } 
+
+        this.translated.add(trans_msg);
     }
 }

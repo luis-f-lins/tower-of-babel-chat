@@ -24,6 +24,7 @@ class Client {
             Thread translator_thread = new Thread(translator);
 
             receiver_thread.start();
+            translator_thread.start();
             gui_thread.start();
 
             while(true){
@@ -32,15 +33,14 @@ class Client {
                     gui.add_message(message, to_user);
 
                 message = gui.get_message();
-                if (message != null) {
+                if (message != null)
                     message = translator.go(message);
-                    
-                    if (message == null)
-                        message = translator.get_message();
 
-                    if (message != null)
-                        sender.send(message.getBytes());
-                }
+                if (message == null)
+                    message = translator.get_translated();
+
+                if (message != null)
+                    sender.send(message.getBytes());
             }
         } catch(Exception e){e.printStackTrace( );}
     }

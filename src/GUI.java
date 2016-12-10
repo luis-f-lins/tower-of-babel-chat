@@ -98,7 +98,9 @@ public class GUI extends JPanel implements Runnable {
     private void send_message() {
         String message = this.input_field.getText();
         if (message.length() > 0) {
-            this.add_message(Translator.clean(message), this.user);
+            String clean_message = Translator.clean(message);
+
+            this.add_message(clean_message, this.user);
             this.input_message = message;
             LOG.debug("Message ready to be sent, message = " + message);
 

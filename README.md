@@ -3,8 +3,11 @@
 ## Install (needs [translate-shell](https://github.com/soimort/translate-shell) and [GNU/awk](https://www.gnu.org/software/gawk/) to work)
 
 `bash download_translator.sh`
+
 `mkdir -p bin`
+
 `javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Translator.java src/Log.java src/Config.java -d bin`
+
 `cd bin`
 
 ## Run
