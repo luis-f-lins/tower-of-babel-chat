@@ -20,6 +20,9 @@ class Client {
             Receiver receiver = new Receiver(socket, Config.MESSAGE_MAX_LEN, to_host, receive_port);
             Thread receiver_thread = new Thread(receiver);
 
+            Translator translator = new Translator();
+            Thread translator_thread = new Thread(translator);
+
             receiver_thread.start();
             gui_thread.start();
 
@@ -29,8 +32,15 @@ class Client {
                     gui.add_message(message, to_user);
 
                 message = gui.get_message();
-                if (message != null)
-                    sender.send(message.getBytes());
+                if (message != null) {
+                    message = translator.go(message);
+                    
+                    if (message == null)
+                        message = translator.get_message();
+
+                    if (message != null)
+                        sender.send(message.getBytes());
+                }
             }
         } catch(Exception e){e.printStackTrace( );}
     }

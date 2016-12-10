@@ -96,12 +96,12 @@ public class GUI extends JPanel implements Runnable {
     }
 
     private void send_message() {
-        String message = Translator.go(this.input_field.getText());
+        String message = this.input_field.getText();
         if (message.length() > 0) {
+            this.add_message(Translator.clean(message), this.user);
             this.input_message = message;
-            this.add_message(message, this.user);
-            
             LOG.debug("Message ready to be sent, message = " + message);
+
             this.input_field.setText("");
         }
     }
