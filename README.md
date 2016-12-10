@@ -1,18 +1,12 @@
 # Chat and send translated messages
 
-## Install (needs [translate-shell](https://github.com/soimort/translate-shell) and [GNU/awk](https://www.gnu.org/software/gawk/) to work)
+## Install (needs [GNU/awk](https://www.gnu.org/software/gawk/) to work)
 
-`bash download_translator.sh`
-
-`mkdir -p bin`
-
-`javac src/Client.java src/GUI.java src/Packet.java src/Receiver.java src/Translator.java src/Log.java src/Config.java -d bin`
-
-`cd bin`
+`bash build.sh`
 
 ## Run
 
-Inside folder bin run Client with java, args are: **from_username**, **to_username**, **to_ip**, **send_port**, **receive_port**
+Inside folder **bin** run Client with java, args are: **from_username**, **to_username**, **to_ip**, **send_port**, **receive_port**
 
 -from means you
 
@@ -31,4 +25,4 @@ Inside folder bin run Client with java, args are: **from_username**, **to_userna
 
 ## License
 
-GPL-v3.0
+GPL-3.0
