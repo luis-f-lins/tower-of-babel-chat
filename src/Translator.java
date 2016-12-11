@@ -44,14 +44,13 @@ class Translator implements Runnable {
         String lang = String.valueOf(message.charAt(1)) + String.valueOf(message.charAt(2));
 
         message = Translator.clean(message);
-        String command = "../trans" + " :" + lang + " -brief " + "\"" + message + "\"";
-        LOG.debug(command);
 
         String trans_msg = "";
+        String[] command = new String[] {"../trans", ":" + lang, "-brief", message};
 
         try
         {
-            Process process = Runtime.getRuntime().exec(command); 
+            Process process = Runtime.getRuntime().exec(command) ; 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));                                          
 
             String line;
@@ -63,7 +62,7 @@ class Translator implements Runnable {
         }
         catch(IOException ioe)
         {
-            LOG.debug("IOException (translate): " + ioe.getMessage());
+            ioe.printStackTrace();
         } 
 
         this.translated.add(trans_msg);
