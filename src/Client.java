@@ -43,6 +43,8 @@ class Client {
                 if (message != null)
                     sender.send(message.getBytes());
             }
-        } catch(Exception e){e.printStackTrace( );}
+        } catch(Exception e){
+            LOG.error("Exception (client): " + e.getMessage());
+        }
     }
 }

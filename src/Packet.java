@@ -29,7 +29,7 @@ class Packet {
             if (message != null)
                 LOG.debug("Receive packet received, message = " + message);
         } catch (IOException e) {
-            LOG.debug("IOException (receive): " + e.getMessage());
+            LOG.error("IOException (receive): " + e.getMessage());
         }
         return message;
     }
@@ -41,7 +41,7 @@ class Packet {
 
             LOG.debug("Send packet sent, message = " + new String(buffer));
         } catch (IOException e) {
-            LOG.debug("IOException (send): " + e.getMessage());
+            LOG.error("IOException (send): " + e.getMessage());
         }
     }
 }

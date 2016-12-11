@@ -47,22 +47,23 @@ class Translator implements Runnable {
 
         String trans_msg = "";
         String[] command = new String[] {"../trans", ":" + lang, "-brief", message};
+        LOG.debug("Translating message " + message + " to " + lang + ".");
 
         try
         {
-            Process process = Runtime.getRuntime().exec(command) ; 
+            Process process = Runtime.getRuntime().exec(command); 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));                                          
 
             String line;
-            while((line = reader.readLine()) != null) {
+            while((line = reader.readLine()) != null)
                 trans_msg += line + " ";
-            }
+
             reader.close();
             trans_msg = trans_msg.replaceFirst("^\"","").replaceFirst("\" $","");
         }
         catch(IOException ioe)
         {
-            ioe.printStackTrace();
+            LOG.error("IOException (translate): " + ioe.getMessage());
         } 
 
         this.translated.add(trans_msg);
