@@ -1,13 +1,15 @@
 # Chat and send translated messages
 
 ## Install 
-*(needs [GNU/awk](https://www.gnu.org/software/gawk/) to work)*
+*(Needs [GNU/awk](https://www.gnu.org/software/gawk/), Java [JDK and JRE](http://www.oracle.com/technetwork/pt/java/javase/downloads/index.html) to work.*
+
+*If you're on Linux or Mac OS, that's all. It you're on Windows, you will also need [Bash for Windows](https://msdn.microsoft.com/pt-br/commandline/wsl/faq) (Windows 10, only) or [Cygwin](https://www.cygwin.com), for previous versions of Windows)*
 
 `bash build.sh`
 
 ## Run
 
-Inside folder **bin** run Client with java, args are: 
+Inside folder **bin**, run Client with java. Args are: 
 
 &nbsp;&nbsp;&nbsp;&nbsp;**from_username**, 
 
