@@ -3,7 +3,7 @@
 ## Install 
 *(needs [GNU/awk](https://www.gnu.org/software/gawk/), Java [JDK and JRE](http://www.oracle.com/technetwork/pt/java/javase/downloads/index.html) to work)*
 
-*(if you're on Linux or Mac OS, that's all. It you're on Windows, you will also need [Bash for Windows](https://msdn.microsoft.com/pt-br/commandline/wsl/faq) - Windows 10, only - or [Cygwin](https://www.cygwin.com), for previous versions of Windows)*
+*(if you're on Linux or Mac OS, that's all. if you're on Windows, you will also need [Bash for Windows](https://msdn.microsoft.com/pt-br/commandline/wsl/faq) - Windows 10, only - or [Cygwin](https://www.cygwin.com), for previous versions of Windows)*
 
 `bash build.sh`
 
